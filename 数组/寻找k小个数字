@@ -1,0 +1,55 @@
+寻找k小个数字
+
+solution1：  利用partition的解法，复杂度是n*logn
+solution2:   利用最小堆
+# -*- coding:utf-8 -*-
+class Solution:
+
+    def QuickSort(self, tinput, start, end):
+        temp = tinput[start]
+        L = start
+        R = end
+
+        while (L < R):
+            while (L < R and tinput[R] >= temp):
+                R -= 1
+            tinput[L] = tinput[R]
+
+            while (L < R and tinput[L] <= temp):
+                L += 1
+            tinput[R] = tinput[L]
+
+        tinput[L] = temp
+
+        return L
+
+    def Sort(self, tinput, start, end):
+        if (start < end):
+            index = self.QuickSort(tinput, start, end)
+            self.Sort(tinput, start, index - 1)
+            self.Sort(tinput, index + 1, end)
+
+    def GetLeastNumbers_Solution(self, tinput, k):
+
+        if len(tinput) < k:
+            return tinput
+        elif len(tinput) == k:
+            self.Sort(tinput, 0, k-1)
+            return tinput
+
+        start = 0
+        end = len(tinput) - 1
+        index = self.QuickSort(tinput, start, end)
+        k = k - 1
+        while index != k:
+
+            if index > k:
+                end = index - 1
+            elif index < k:
+                start = index + 1
+
+            index = self.QuickSort(tinput, start, end)
+        x = k
+        self.Sort(tinput, 0, x)
+
+        return tinput[:k + 1]

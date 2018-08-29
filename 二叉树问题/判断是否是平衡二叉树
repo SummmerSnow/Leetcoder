@@ -1,0 +1,59 @@
+判断是否是平衡二叉树
+
+总结：
+第一种做法比第二种做法好，主要是不需要重复计算节点的高度了，
+但是两种都是基于递归的，重复子节点计算问题依然是存在的。
+
+
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    res = True
+    def getDepth(self, p):
+        if p==None:
+            return 0
+        left_depth = self.getDepth(p.left)
+        right_depth = self.getDepth(p.right)
+        if abs(left_depth - right_depth) > 1:
+            self.res = False
+        return left_depth+1 if left_depth > right_depth else right_depth+1
+        
+    def IsBalanced_Solution(self, pRoot):
+        self.getDepth(pRoot)
+        return self.res
+
+
+
+# -*- coding:utf-8 -*-
+# class TreeNode:
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+class Solution:
+    def getDepth(self, p):
+        if p==None:
+            return 0
+        left_depth = self.getDepth(p.left)
+        right_depth = self.getDepth(p.right)
+        
+        return left_depth+1 if left_depth > right_depth else right_depth+1
+        
+    def IsBalanced_Solution(self, pRoot):
+        if pRoot == None:
+            return True
+        left_depth = self.getDepth(pRoot.left)
+        right_depth = self.getDepth(pRoot.right)
+        if abs(left_depth - right_depth) > 1:
+            return False
+        
+        return self.IsBalanced_Solution(pRoot.left) and self.IsBalanced_Solution(pRoot.right)
+            
+        
+    
+        
+    
